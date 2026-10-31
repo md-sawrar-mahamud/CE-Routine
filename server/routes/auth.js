@@ -98,11 +98,13 @@ router.post('/forgot-password', async (req, res) => {
     await user.save();
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}&id=${user._id}`;
-    await sendMail({
+
+    // Fire-and-forget: don't block the HTTP response on slow/unreliable email delivery
+    sendMail({
       to: user.email,
       subject: '🔑 Reset Your Password',
       html: `<p>Click below to reset your password (valid 15 minutes):</p><a href="${resetUrl}">Reset Password</a>`
-    });
+    }).catch(() => {});
 
     res.json({ success: true, message: 'Reset link sent to your email' });
   } catch (err) {
