@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background-color: transparent;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #1e293b;
+  transition: color 0.4s ease;
+}
+
+html.dark body {
+  color: #e2e8f0;
+}
+
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+  border-radius: 999px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+}
+
+/* ===== Reusable frosted glass card — use instead of bg-white ===== */
+@layer components {
+  .ce-card {
+    @apply rounded-xl shadow-sm;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  html.dark .ce-card {
+    background: rgba(15, 23, 42, 0.68); /* slate-900 w/ alpha */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Text helpers for consistent contrast inside .ce-card */
+  .ce-label {
+    @apply text-gray-600;
+  }
+  html.dark .ce-label {
+    color: #cbd5e1; /* slate-300 — was invisible gray-on-dark before */
+  }
+
+  .ce-heading {
+    @apply text-gray-900 font-bold;
+  }
+  html.dark .ce-heading {
+    color: #f1f5f9; /* slate-100 */
+  }
+
+  .ce-input {
+    @apply border p-2 w-full rounded;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #1e293b;
+  }
+  .ce-input::placeholder { color: #94a3b8; }
+
+  html.dark .ce-input {
+    background: rgba(30, 41, 59, 0.85); /* slate-800 */
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #f1f5f9;
+  }
+  html.dark .ce-input::placeholder { color: #64748b; }
+}

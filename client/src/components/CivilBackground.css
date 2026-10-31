@@ -1,0 +1,287 @@
+/* ================== Civil Engineering animated background ================== */
+
+.ce-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+
+  /* ---- Light theme (default) ---- */
+  --ce-sky-top: #cfe8ff;
+  --ce-sky-bottom: #f4f7fb;
+  --ce-line: rgba(30, 64, 175, 0.09);
+  --ce-line-major: rgba(30, 64, 175, 0.15);
+  --ce-ink: rgba(30, 64, 175, 0.26);
+  --ce-ink-soft: rgba(30, 64, 175, 0.13);
+  --ce-accent: rgba(217, 119, 6, 0.55);
+  --ce-celestial: radial-gradient(circle at 35% 35%, #fff7d6, #fbbf24 70%);
+  --ce-celestial-glow: rgba(251, 191, 36, 0.55);
+  --ce-cloud: rgba(255, 255, 255, 0.85);
+  --ce-cloud-opacity: 0.8;
+  --ce-stars-opacity: 0;
+  --ce-window: rgba(250, 204, 21, 0.0);
+  --ce-river-a: #bfe3f5;
+  --ce-river-b: #8fcbe8;
+  --ce-vignette-opacity: 0.55;
+  transition: background-color 0.6s ease;
+}
+
+.ce-bg[data-theme='dark'] {
+  --ce-sky-top: #050b24;
+  --ce-sky-bottom: #0b1f4b;
+  --ce-line: rgba(255, 255, 255, 0.055);
+  --ce-line-major: rgba(255, 255, 255, 0.1);
+  --ce-ink: rgba(255, 255, 255, 0.3);
+  --ce-ink-soft: rgba(255, 255, 255, 0.15);
+  --ce-accent: rgba(251, 191, 36, 0.5);
+  --ce-celestial: radial-gradient(circle at 35% 35%, #ffffff, #cbd5e1 70%);
+  --ce-celestial-glow: rgba(203, 213, 225, 0.45);
+  --ce-cloud: rgba(148, 163, 184, 0.25);
+  --ce-cloud-opacity: 0.4;
+  --ce-stars-opacity: 1;
+  --ce-window: rgba(250, 204, 21, 0.85);
+  --ce-river-a: #0b2e4a;
+  --ce-river-b: #123a5e;
+  --ce-vignette-opacity: 0.7;
+}
+
+/* ---- sky ---- */
+.ce-bg__sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--ce-sky-top) 0%, var(--ce-sky-bottom) 70%);
+  transition: background 0.8s ease;
+}
+
+/* ---- stars ---- */
+.ce-bg__stars {
+  position: absolute;
+  inset: 0;
+  opacity: var(--ce-stars-opacity);
+  transition: opacity 0.8s ease;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 25% 45%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 10%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 55%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 95% 40%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 15% 65%, #fff, transparent),
+    radial-gradient(1px 1px at 65% 75%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 80%, #fff, transparent);
+  background-size: 100% 60%;
+  background-repeat: no-repeat;
+  animation: ce-twinkle 4s ease-in-out infinite;
+}
+.ce-bg__stars--2 {
+  background-position: 10% 5%;
+  animation-duration: 6s;
+  animation-delay: -2s;
+}
+
+/* ---- sun / moon ---- */
+.ce-bg__orbit {
+  position: absolute;
+  inset: 0;
+  animation: ce-orbit 70s linear infinite;
+  will-change: transform;
+}
+.ce-bg__celestial {
+  position: absolute;
+  top: 6%;
+  left: 10%;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--ce-celestial);
+  box-shadow: 0 0 60px 18px var(--ce-celestial-glow);
+  transition: background 0.8s ease, box-shadow 0.8s ease;
+}
+
+/* ---- clouds ---- */
+.ce-cloud {
+  position: absolute;
+  width: 160px;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--ce-cloud);
+  opacity: var(--ce-cloud-opacity);
+  filter: blur(1px);
+  transition: background 0.8s ease, opacity 0.8s ease;
+}
+.ce-cloud::before, .ce-cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+.ce-cloud::before { width: 70px; height: 70px; top: -32px; left: 18px; }
+.ce-cloud::after  { width: 90px; height: 90px; top: -46px; left: 70px; }
+
+.ce-cloud--1 { top: 12%;  left: -220px; animation: ce-cloud-move 55s linear infinite; }
+.ce-cloud--2 { top: 22%;  left: -300px; transform: scale(0.7);
+  animation: ce-cloud-move 80s linear infinite; animation-delay: -20s; }
+.ce-cloud--3 { top: 8%;   left: -260px; transform: scale(0.5);
+  animation: ce-cloud-move 100s linear infinite; animation-delay: -45s; }
+
+/* ---- grid ---- */
+.ce-bg__grid {
+  position: absolute;
+  inset: -200px;
+  background-image:
+    linear-gradient(var(--ce-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ce-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: ce-pan 90s linear infinite;
+  will-change: transform;
+}
+.ce-bg__grid--major {
+  background-image:
+    linear-gradient(var(--ce-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ce-line-major) 1px, transparent 1px);
+  background-size: 200px 200px;
+}
+
+/* ---- vignette ---- */
+.ce-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, var(--ce-sky-bottom) 100%);
+  opacity: var(--ce-vignette-opacity);
+  transition: background 0.8s ease, opacity 0.8s ease;
+}
+
+/* ---- SVG scene ---- */
+.ce-bg__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--ce-ink);
+}
+
+.ce-stroke       { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ce-stroke--soft { stroke: var(--ce-ink-soft); }
+.ce-stroke--thin { stroke-width: 1.2; }
+.ce-accent       { stroke: var(--ce-accent); }
+
+/* crane */
+.ce-crane__jib {
+  transform-origin: 1180px 160px;
+  animation: ce-sway 14s ease-in-out infinite;
+}
+.ce-crane__hook { animation: ce-bob 6s ease-in-out infinite; }
+.ce-crane__light {
+  fill: #ef4444;
+  animation: ce-blink 1.4s ease-in-out infinite;
+}
+
+/* floating structural elements */
+.ce-float { animation: ce-drift 18s ease-in-out infinite; will-change: transform; }
+.ce-float--2 { animation-duration: 22s; animation-delay: -6s; }
+.ce-float--3 { animation-duration: 26s; animation-delay: -12s; }
+.ce-float--4 { animation-duration: 20s; animation-delay: -3s; }
+.ce-spin { transform-box: fill-box; transform-origin: center; animation: ce-spin 40s linear infinite; }
+
+/* scan line */
+.ce-scan { animation: ce-scan 20s linear infinite; }
+
+/* rivets twinkle */
+.ce-rivet {
+  fill: var(--ce-accent);
+  animation: ce-twinkle-fast 2.4s ease-in-out infinite;
+}
+.ce-rivet--2 { animation-delay: -0.8s; }
+.ce-rivet--3 { animation-delay: -1.6s; }
+
+/* river shimmer */
+.ce-river {
+  fill: var(--ce-river-b);
+  transition: fill 0.8s ease;
+}
+.ce-river::after { content: none; } /* SVG can't do ::after, shimmer handled by overlay below */
+
+/* traffic across bridge deck */
+.ce-traffic {
+  animation: ce-traffic-move 9s linear infinite;
+}
+.ce-traffic--2 {
+  animation-duration: 13s;
+  animation-delay: -4s;
+  transform: translateY(0);
+}
+.ce-headlight {
+  fill: #fde68a;
+  opacity: 0;
+}
+.ce-bg[data-theme='dark'] .ce-headlight { opacity: 1; }
+
+/* skyline windows */
+.ce-windows rect {
+  fill: var(--ce-window);
+  transition: fill 0.8s ease;
+  animation: ce-window-blink 5s ease-in-out infinite;
+}
+.ce-windows rect:nth-child(2n) { animation-delay: -1.5s; }
+.ce-windows rect:nth-child(3n) { animation-delay: -3s; }
+
+/* dust / sparkle particles */
+.ce-dust__p {
+  fill: var(--ce-accent);
+  opacity: 0;
+  animation: ce-rise 7s ease-in infinite;
+}
+.ce-dust__p--2 { animation-delay: -1.5s; }
+.ce-dust__p--3 { animation-delay: -3s; }
+.ce-dust__p--4 { animation-delay: -4.5s; animation-duration: 9s; }
+.ce-dust__p--5 { animation-delay: -6s; animation-duration: 8s; }
+
+/* ---- keyframes (transform / opacity / fill only — GPU friendly) ---- */
+@keyframes ce-pan   { from { transform: translate(0, 0); } to { transform: translate(200px, 200px); } }
+@keyframes ce-sway  { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes ce-bob   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(45px); } }
+@keyframes ce-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33%      { transform: translate(18px, -28px) rotate(4deg); }
+  66%      { transform: translate(-14px, 16px) rotate(-3deg); }
+}
+@keyframes ce-spin  { to { transform: rotate(360deg); } }
+@keyframes ce-scan  {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(900px); opacity: 0; }
+}
+@keyframes ce-twinkle      { 0%, 100% { opacity: calc(var(--ce-stars-opacity) * 0.5); } 50% { opacity: var(--ce-stars-opacity); } }
+@keyframes ce-twinkle-fast { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes ce-orbit {
+  0%   { transform: translate(0, 60px); }
+  50%  { transform: translate(1150px, -40px); }
+  100% { transform: translate(2300px, 60px); }
+}
+@keyframes ce-cloud-move { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 400px)); } }
+@keyframes ce-blink      { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
+@keyframes ce-window-blink { 0%, 90%, 100% { opacity: 1; } 95% { opacity: 0.25; } }
+@keyframes ce-traffic-move { from { transform: translateX(-40px); } to { transform: translateX(1480px); } }
+@keyframes ce-rise {
+  0%   { transform: translateY(0); opacity: 0; }
+  15%  { opacity: 0.9; }
+  100% { transform: translateY(-140px); opacity: 0; }
+}
+
+/* ---- accessibility + battery savers ---- */
+@media (prefers-reduced-motion: reduce) {
+  .ce-bg *, .ce-bg__grid, .ce-bg__orbit, .ce-cloud { animation: none !important; }
+}
+@media (max-width: 640px) {
+  .ce-float--3, .ce-float--4, .ce-cloud--3, .ce-dust, .ce-bg__stars--2 { display: none; }
+}
+
+/* app content must sit above the background */
+.ce-app-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
