@@ -12,7 +12,7 @@ const path = require('path');
 
 
 const photoStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/photos'),
+  destination: (req, file, cb) => cb(null, path.join(__dirname, '..', 'uploads', 'photos')),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     cb(null, `${req.user?.id || 'user'}-${Date.now()}${ext}`);

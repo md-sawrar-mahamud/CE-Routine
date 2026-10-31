@@ -3,8 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const compression = require('compression');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
+
+// Ensure uploads folder exists (Render's filesystem is ephemeral & starts empty on each deploy)
+const uploadsDir = path.join(__dirname, 'uploads', 'photos');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+  console.log('📁 Created uploads/photos directory');
+}
+
 app.use(compression());
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use(express.json());
