@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
-  const email = 'sarwar@mec.ac.bd';
+  const email = 'sarwar@mec.edu.bd';
   const exists = await User.findOne({ email });
   if (exists) {
     console.log('⚠️ Admin already exists:', email);
@@ -14,7 +14,7 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
   await User.create({
     fullName: 'Super Admin', email, passwordHash, role: 'admin', isVerified: true
   });
-  console.log('✅ Admin created → email: sarwar@mec.ac.bd | password: ChangeMe123!');
+  console.log('✅ Admin created → email: sarwar@mec.edu.bd | password: ChangeMe123!');
   console.log('⚠️ LOGIN AND CHANGE THIS PASSWORD IMMEDIATELY');
   process.exit();
 });
